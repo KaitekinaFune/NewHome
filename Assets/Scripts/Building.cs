@@ -33,6 +33,7 @@ public class Building : PlanetEntity
     private void Start()
     {
         BuildingsManager.Instance.BuildingsChanged();
+        AudioManager.Instance.PlayBuildingCreatedSound(_cachedTransform);
     }
 
     private void OnDestroy()
@@ -64,13 +65,24 @@ public class Building : PlanetEntity
         }
 
         int majorUpgradeIndex = MajorUpgradeLevels.IndexOf(CurrentLevel);
+        bool majorUpgradeDone = false;
         if (majorUpgradeIndex != -1)
         {
             for (var index = 0; index < MajorUpgradeObjects.Count; index++)
             {
                 var majorUpgrade = MajorUpgradeObjects[index];
                 majorUpgrade.SetActive(index == majorUpgradeIndex);
+                majorUpgradeDone = true;
             }
+        }
+
+        if (majorUpgradeDone)
+        {
+            AudioManager.Instance.PlayBuildingMajorUpgrade(_cachedTransform);
+        }
+        else
+        {
+            AudioManager.Instance.PlayBuildingMinorUpgrade(_cachedTransform);
         }
 
         CurrentLevel++;

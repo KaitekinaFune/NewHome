@@ -34,6 +34,11 @@ public class BuildingsManager : Singleton<BuildingsManager>
             OnBuildingEarned?.Invoke(new BuildingEarnedEventArgs(activeBuilding, earningPerTick));
         }
 
+        if (earningTotal != 0)
+        {
+            AudioManager.Instance.PlayMoneyGainedSound();
+        }
+
         PlayerCurrency.Instance.CurrentCurrency += earningTotal;
     }
 

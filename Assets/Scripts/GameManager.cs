@@ -169,11 +169,12 @@ public class GameManager : Singleton<GameManager>
 
     public void SellBuilding(Building building)
     {
+        AudioManager.Instance.PlayBuildingDestroyedSound(building.transform);
         int returnAmount = building.BasePrice * building.CurrentLevel / 2;
         UIManager.Instance.EarnedMoney(building.transform, returnAmount);
         PlayerCurrency.Instance.CurrentCurrency += returnAmount;
         BuildingsManager.Instance.ActiveBuildings.Remove(building);
-        Destroy(building.gameObject);
+        building.DelayedDestroy().Forget();
         DeselectBuilding();
     }
 

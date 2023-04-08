@@ -18,11 +18,8 @@ public class OreManager : Singleton<OreManager>
     {
         Ore randomOrePrefab = _orePrefabs[Random.Range(0, _orePrefabs.Count)];
         Ore spawnedOre = Instantiate(randomOrePrefab);
-        var suitableCell = PlanetManager.Instance.FindRandomNonOccupiedCell(spawnedOre.Size);
-
-        spawnedOre.Spawn(suitableCell.transform.position, false);
+        spawnedOre.Spawn(spawnedOre.transform.position, false);
         spawnedOre.Init(DurationInTicks, BaseAmountPerClick, ClicksAmount);
-        PlanetManager.Instance.OccupyCells(spawnedOre, suitableCell.transform.position);
     }
 
     private void Start()
