@@ -50,6 +50,7 @@ public class TurretBuilding : Building
             if (target != null)
             {
                 target.Damage(Damage);
+                ParticlesManager.Instance.Shoot(transform, target.transform);
                 AudioManager.Instance.PlayTurretShootSound(_cachedTransform);
             }
         }

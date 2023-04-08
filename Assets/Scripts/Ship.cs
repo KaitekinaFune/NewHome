@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -42,12 +44,34 @@ public class Ship : MonoBehaviour
 
     public void Damage(int damageAmount)
     {
+        if (health <= 0)
+        {
+            return;
+        }
+
         health -= damageAmount;
 
-        if (health < 0)
+        if (health <= 0)
         {
+            ParticlesManager.Instance.ShipDestroyed(transform.position);
             AudioManager.Instance.PlayShipDestroyedSound(transform);
+            DelayedDestroyAsync().Forget();
+        }
+    }
+
+    private async UniTaskVoid DelayedDestroyAsync()
+    {
+        try
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5), cancellationToken: this.GetCancellationTokenOnDestroy());
             Destroy(gameObject);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
         }
     }
 
@@ -91,6 +115,7 @@ public class Ship : MonoBehaviour
 
     private void TryShoot()
     {
+        ParticlesManager.Instance.Shoot(transform, BuildingsManager.Instance.MainBuilding.transform);
         BuildingsManager.Instance.MainBuilding.Damage(damage);
         AudioManager.Instance.PlayShipShootSound(transform);
     }
