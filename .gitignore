@@ -9,6 +9,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
+/[Uu]ser[Ss]ettings/
+
+# Rider/IDEA
+/Assets/Plugins/Editor.meta
+/Assets/Plugins/Editor/JetBrains.meta
+/Assets/Plugins/Editor/JetBrains/*
+/.idea/
+
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
