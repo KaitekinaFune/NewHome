@@ -9,25 +9,25 @@ public class Building : PlanetEntity
     [FormerlySerializedAs("Price")] public int BasePrice;
     public float PriceIncreasePerLevel = 1.15f;
     public int MaxUpgrades = 10;
-    public int CurrentLevel { get; set; }
+    public int CurrentLevel { get; set; } = 1;
     public int CurrentPrice { get; set; }
 
-    public List<int> MajorUpgradeLevels = new List<int> { 1, 5, 10 };
+    public List<int> MajorUpgradeLevels = new List<int> { 1, 4, 9 };
     public List<GameObject> MajorUpgradeObjects;
 
-    private void Awake()
+    protected virtual void Awake()
     {
+        _cachedTransform = transform;
         CurrentPrice = BasePrice;
-        CurrentLevel = 1;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         BuildingsManager.Instance.BuildingsChanged();
         AudioManager.Instance.PlayBuildingCreatedSound(_cachedTransform);
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         BuildingsManager.Instance.BuildingsChanged();
     }
@@ -44,6 +44,7 @@ public class Building : PlanetEntity
             return;
         }
 
+        CurrentLevel++;
         int majorUpgradeIndex = MajorUpgradeLevels.IndexOf(CurrentLevel);
         bool majorUpgradeDone = false;
         if (majorUpgradeIndex != -1)
@@ -65,7 +66,6 @@ public class Building : PlanetEntity
             AudioManager.Instance.PlayBuildingMinorUpgrade(_cachedTransform);
         }
 
-        CurrentLevel++;
         CurrentPrice = GetNextUpgradePrice();
         OnUpgraded();
         BuildingsManager.Instance.BuildingsChanged();

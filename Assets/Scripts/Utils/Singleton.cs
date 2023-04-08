@@ -23,5 +23,10 @@ namespace Utils
                 return _instance;
             }
         }
+
+        private void OnDestroy()
+        {
+            _instance = null;
+        }
     }
 }

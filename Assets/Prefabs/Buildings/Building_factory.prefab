@@ -210,7 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5633842866298372553}
-  - component: {fileID: 5633842866298372554}
+  - component: {fileID: 5483392493059254738}
   - component: {fileID: -3564848618306483025}
   m_Layer: 0
   m_Name: Building_factory
@@ -234,7 +234,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5633842866298372554
+--- !u!114 &5483392493059254738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,22 +243,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5633842866298372555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586abb1fa60c49bca34ffabe9e8c13ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a4cbfb0fc384fa1bf313660a166ba66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 2, y: 1}
   BuildingName: "\u0424\u0430\u0431\u0440\u0438\u043A\u0430"
-  BaseEarningPerTick: 470
   BasePrice: 120000
   PriceIncreasePerLevel: 1.15
-  EarningsIncreasePerLevel: 2
   MaxUpgrades: 10
-  OreModifier: 250
-  MajorUpgradeLevels: 010000000400000009000000
+  MajorUpgradeLevels: 01000000050000000a000000
   MajorUpgradeObjects:
   - {fileID: 5546844521805121558}
   - {fileID: 5911554063270324016}
   - {fileID: 2734628022475968604}
+  BaseEarningPerTick: 5000
+  EarningsIncreasePerLevel: 2
+  OreModifier: 250
 --- !u!65 &-3564848618306483025
 BoxCollider:
   m_ObjectHideFlags: 0

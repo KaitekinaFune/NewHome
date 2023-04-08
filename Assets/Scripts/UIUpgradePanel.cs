@@ -45,10 +45,14 @@ public class UIUpgradePanel : MonoBehaviour
         {
             m_currentIncomeText.text = "Доход:\n" + earningBuilding.CurrentIncome;
         }
+        else if (building is TurretBuilding turretBuilding)
+        {
+            m_currentIncomeText.text = "Урон:\n" + turretBuilding.Damage;
+        }
 
-        m_currentLevelText.text = "Текущий уровень:\n" + building.CurrentLevel;
+        m_currentLevelText.text = "Уровень:\n" + building.CurrentLevel;
 
-        m_nextUpgradePriceText.text = "Стоимость улучшения:\n" + building.GetNextUpgradePrice();
+        m_nextUpgradePriceText.text = "<sprite=0> " + building.GetNextUpgradePrice();
     }
 
     public void Close()

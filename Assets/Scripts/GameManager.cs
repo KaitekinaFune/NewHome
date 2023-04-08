@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Deck;
 using DG.Tweening;
 using UnityEngine;
@@ -30,6 +29,11 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
+        if (State == GameState.Lost)
+        {
+            return;
+        }
+
         Tick();
 
         Camera cam = CameraManager.Instance.Camera;
@@ -62,6 +66,13 @@ public class GameManager : Singleton<GameManager>
             CurrentTick++;
             OnTick?.Invoke(CurrentTick);
         }
+    }
+
+    public void Lose()
+    {
+        State = GameState.Lost;
+
+        UIManager.Instance.ShowLoseScreen();
     }
 
     public void TryClickOnCell(Cell cell)

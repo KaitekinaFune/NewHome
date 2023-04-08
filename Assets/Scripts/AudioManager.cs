@@ -1,18 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [SerializeField] private AudioListener audioListener;
-    [SerializeField] private AudioSource defaultAudioListener;
+    [FormerlySerializedAs("defaultAudioListener")] [SerializeField]
+    private AudioSource defaultAudioSource;
 
-    [SerializeField] private AudioClip moneyGainedSound;
-    [SerializeField] private AudioClip buildingCreatedSound;
-    [SerializeField] private AudioClip buildingMinorUpgradedSound;
-    [SerializeField] private AudioClip buildingMajorUpgradedSound;
-    [SerializeField] private AudioClip buildingDestroyedSound;
-    [SerializeField] private AudioClip oreDigSound;
-    [SerializeField] private AudioClip oreBreakSound;
+    [SerializeField] private ClipData moneyGainedSound;
+    [SerializeField] private ClipData buildingCreatedSound;
+    [SerializeField] private ClipData buildingMinorUpgradedSound;
+    [SerializeField] private ClipData buildingMajorUpgradedSound;
+    [SerializeField] private ClipData buildingDestroyedSound;
+    [SerializeField] private ClipData oreDigSound;
+    [SerializeField] private ClipData oreBreakSound;
+    [SerializeField] private ClipData uiClick1;
+    [SerializeField] private ClipData wooshSound;
+    [SerializeField] private ClipData shipArrivedSound;
+    [SerializeField] private ClipData shipShootSound;
+    [SerializeField] private ClipData shipDestroyedSound;
+    [SerializeField] private ClipData turretShootSound;
 
     public void PlayMoneyGainedSound()
     {
@@ -49,18 +57,55 @@ public class AudioManager : Singleton<AudioManager>
         PlayTargeted(target, buildingCreatedSound);
     }
 
-    private void PlayTargeted(Transform target, AudioClip clip)
+    public void PlayUI1()
+    {
+        PlayNonTargeted(uiClick1);
+    }
+
+    public void PlayWhoosh()
+    {
+        PlayNonTargeted(wooshSound);
+    }
+
+    public void PlayShipArrivedSound(Transform target)
+    {
+        PlayTargeted(target, shipArrivedSound);
+    }
+
+    public void PlayShipShootSound(Transform target)
+    {
+        PlayTargeted(target, shipShootSound);
+    }
+
+    public void PlayShipDestroyedSound(Transform target)
+    {
+        PlayTargeted(target, shipDestroyedSound);
+    }
+
+    public void PlayTurretShootSound(Transform target)
+    {
+        PlayTargeted(target, turretShootSound);
+    }
+
+    private void PlayTargeted(Transform target, ClipData clipData)
     {
         if (!target.TryGetComponent(out AudioSource s))
         {
             s = target.gameObject.AddComponent<AudioSource>();
         }
 
-        s.PlayOneShot(clip);
+        s.PlayOneShot(clipData.Clip, clipData.Volume);
     }
 
-    private void PlayNonTargeted(AudioClip clip)
+    private void PlayNonTargeted(ClipData clipData)
     {
-        defaultAudioListener.PlayOneShot(clip);
+        defaultAudioSource.PlayOneShot(clipData.Clip, clipData.Volume);
+    }
+
+    [Serializable]
+    public class ClipData
+    {
+        public AudioClip Clip;
+        [Range(0, 1f)] public float Volume = 1f;
     }
 }

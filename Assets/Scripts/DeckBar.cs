@@ -20,6 +20,7 @@ public class DeckBar : MonoBehaviour
         deckRoot.DOLocalMoveY(-500f, 0.25f);
         _state = State.Hidden;
         GameManager.Instance.SelectedDeck = null;
+        AudioManager.Instance.PlayUI1();
     }
 
     public void Show()
@@ -45,6 +46,7 @@ public class DeckBar : MonoBehaviour
 
         deckRoot.DOLocalMoveY(-260f, 0.25f);
         _state = State.Lowered;
+        AudioManager.Instance.PlayUI1();
     }
 
     public void OnClicked()

@@ -27,6 +27,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void ZoomOut()
     {
+        AudioManager.Instance.PlayUI1();
         Pivot.DOMove(_defaultPosition, zoomInAnimationDuration);
         Camera.DOOrthoSize(zoomCameraOrthoSizeDefault, zoomInAnimationDuration);
     }

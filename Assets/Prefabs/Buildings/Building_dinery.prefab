@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6255832165635236348}
-  - component: {fileID: 6255832165635236339}
+  - component: {fileID: -9202590671374842131}
   - component: {fileID: 4131649045741560888}
   m_Layer: 0
   m_Name: Building_dinery
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6255832165635236339
+--- !u!114 &-9202590671374842131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,22 +42,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6255832165635236338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586abb1fa60c49bca34ffabe9e8c13ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a4cbfb0fc384fa1bf313660a166ba66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 2, y: 1}
   BuildingName: "\u041F\u0438\u0449\u0435\u0431\u043B\u043E\u043A"
-  BaseEarningPerTick: 10
   BasePrice: 1000
   PriceIncreasePerLevel: 1.15
-  EarningsIncreasePerLevel: 2
   MaxUpgrades: 10
-  OreModifier: 10
-  MajorUpgradeLevels: 010000000400000009000000
+  MajorUpgradeLevels: 01000000050000000a000000
   MajorUpgradeObjects:
   - {fileID: 7217189013142245244}
   - {fileID: 7753395507455838865}
   - {fileID: 9144614411713610511}
+  BaseEarningPerTick: 50
+  EarningsIncreasePerLevel: 2
+  OreModifier: 10
 --- !u!65 &4131649045741560888
 BoxCollider:
   m_ObjectHideFlags: 0

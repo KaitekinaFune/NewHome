@@ -7,6 +7,10 @@ public class BuildingsManager : Singleton<BuildingsManager>
 {
     public List<EarningBuilding> ActiveEarningBuildings { get; } = new List<EarningBuilding>();
 
+    public List<TurretBuilding> ActiveTurretBuildings { get; } = new List<TurretBuilding>();
+
+    public MainBuilding MainBuilding;
+
     public event Action<BuildingEarnedEventArgs> OnBuildingEarned;
 
     public event Action OnBuildingsChanged;
@@ -44,7 +48,8 @@ public class BuildingsManager : Singleton<BuildingsManager>
 
     public void BuildingsChanged()
     {
-        GameManager.Instance.OreModifier = ActiveEarningBuildings.Count == 0 ? 1f : ActiveEarningBuildings.Max(x => x.OreModifier);
+        GameManager.Instance.OreModifier =
+            ActiveEarningBuildings.Count == 0 ? 1f : ActiveEarningBuildings.Max(x => x.OreModifier);
         OnBuildingsChanged?.Invoke();
     }
 

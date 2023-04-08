@@ -17,6 +17,8 @@ public class StartButton : MonoBehaviour
 
     public void StartGame()
     {
+        AudioManager.Instance.PlayUI1();
+        AudioManager.Instance.PlayWhoosh();
         StartGameAsync().Forget();
     }
 
