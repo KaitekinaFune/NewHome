@@ -173,7 +173,12 @@ public class GameManager : Singleton<GameManager>
         int returnAmount = building.BasePrice * building.CurrentLevel / 2;
         UIManager.Instance.EarnedMoney(building.transform, returnAmount);
         PlayerCurrency.Instance.CurrentCurrency += returnAmount;
-        BuildingsManager.Instance.ActiveBuildings.Remove(building);
+
+        if (building is EarningBuilding earningBuilding)
+        {
+            BuildingsManager.Instance.ActiveEarningBuildings.Remove(earningBuilding);
+        }
+
         building.DelayedDestroy().Forget();
         DeselectBuilding();
     }

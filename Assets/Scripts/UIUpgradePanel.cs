@@ -41,8 +41,13 @@ public class UIUpgradePanel : MonoBehaviour
         Building = building;
         m_upgradeButton.SetActive(building.CurrentLevel != building.MaxUpgrades);
 
+        if (building is EarningBuilding earningBuilding)
+        {
+            m_currentIncomeText.text = "Доход:\n" + earningBuilding.CurrentIncome;
+        }
+
         m_currentLevelText.text = "Текущий уровень:\n" + building.CurrentLevel;
-        m_currentIncomeText.text = "Доход:\n" + building.CurrentIncome;
+
         m_nextUpgradePriceText.text = "Стоимость улучшения:\n" + building.GetNextUpgradePrice();
     }
 

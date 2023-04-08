@@ -6,26 +6,17 @@ public class Building : PlanetEntity
 {
     public string BuildingName;
 
-    [FormerlySerializedAs("EarningPerTick")]
-    public int BaseEarningPerTick;
-
     [FormerlySerializedAs("Price")] public int BasePrice;
     public float PriceIncreasePerLevel = 1.15f;
-    public float EarningsIncreasePerLevel = 2f;
     public int MaxUpgrades = 10;
     public int CurrentLevel { get; set; }
-    public int CurrentIncome { get; set; }
     public int CurrentPrice { get; set; }
-    public float OreModifier = 1f;
-
-    private BuildingsManager _buildingsManager;
 
     public List<int> MajorUpgradeLevels = new List<int> { 1, 5, 10 };
     public List<GameObject> MajorUpgradeObjects;
 
     private void Awake()
     {
-        CurrentIncome = BaseEarningPerTick;
         CurrentPrice = BasePrice;
         CurrentLevel = 1;
     }
@@ -39,17 +30,6 @@ public class Building : PlanetEntity
     private void OnDestroy()
     {
         BuildingsManager.Instance.BuildingsChanged();
-    }
-
-    private void OnEnable()
-    {
-        _buildingsManager = BuildingsManager.Instance;
-        _buildingsManager.ActiveBuildings.Add(this);
-    }
-
-    private void OnDisable()
-    {
-        _buildingsManager.ActiveBuildings.Remove(this);
     }
 
     private void OnMouseUpAsButton()
@@ -86,9 +66,13 @@ public class Building : PlanetEntity
         }
 
         CurrentLevel++;
-        CurrentIncome = (int)(BaseEarningPerTick * CurrentLevel * EarningsIncreasePerLevel);
         CurrentPrice = GetNextUpgradePrice();
+        OnUpgraded();
         BuildingsManager.Instance.BuildingsChanged();
+    }
+
+    protected virtual void OnUpgraded()
+    {
     }
 
     public int GetNextUpgradePrice()

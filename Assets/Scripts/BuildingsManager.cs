@@ -5,7 +5,7 @@ using Utils;
 
 public class BuildingsManager : Singleton<BuildingsManager>
 {
-    public List<Building> ActiveBuildings { get; } = new List<Building>();
+    public List<EarningBuilding> ActiveEarningBuildings { get; } = new List<EarningBuilding>();
 
     public event Action<BuildingEarnedEventArgs> OnBuildingEarned;
 
@@ -27,7 +27,7 @@ public class BuildingsManager : Singleton<BuildingsManager>
     private void OnTick(int tick)
     {
         int earningTotal = 0;
-        foreach (var activeBuilding in ActiveBuildings)
+        foreach (var activeBuilding in ActiveEarningBuildings)
         {
             int earningPerTick = activeBuilding.CurrentIncome;
             earningTotal += earningPerTick;
@@ -44,14 +44,14 @@ public class BuildingsManager : Singleton<BuildingsManager>
 
     public void BuildingsChanged()
     {
-        GameManager.Instance.OreModifier = ActiveBuildings.Count == 0 ? 1f : ActiveBuildings.Max(x => x.OreModifier);
+        GameManager.Instance.OreModifier = ActiveEarningBuildings.Count == 0 ? 1f : ActiveEarningBuildings.Max(x => x.OreModifier);
         OnBuildingsChanged?.Invoke();
     }
 
     public int CurrentIncome()
     {
         int earningTotal = 0;
-        foreach (var activeBuilding in ActiveBuildings)
+        foreach (var activeBuilding in ActiveEarningBuildings)
         {
             int earningPerTick = activeBuilding.CurrentIncome;
             earningTotal += earningPerTick;
