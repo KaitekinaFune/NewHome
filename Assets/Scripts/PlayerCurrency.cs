@@ -6,7 +6,7 @@ public class PlayerCurrency : Singleton<PlayerCurrency>
 {
     [SerializeField] private long _startingCurrency;
 
-    private void Start()
+    private void Awake()
     {
         CurrentCurrency = _startingCurrency;
     }

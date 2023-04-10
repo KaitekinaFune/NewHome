@@ -5,6 +5,7 @@ using Utils;
 
 public class UIManager : Singleton<UIManager>
 {
+    [SerializeField] private GameObject looseScreen;
     [SerializeField] private UIUpgradePanel upgradePanel;
     [SerializeField] private FloatingNumber floatingNumberPrefab;
 
@@ -59,5 +60,10 @@ public class UIManager : Singleton<UIManager>
     public void SelectBuilding(Building building)
     {
         upgradePanel.Show(building);
+    }
+
+    public void ShowLoseScreen()
+    {
+        looseScreen.gameObject.SetActive(true);
     }
 }

@@ -6,49 +6,30 @@ public class Building : PlanetEntity
 {
     public string BuildingName;
 
-    [FormerlySerializedAs("EarningPerTick")]
-    public int BaseEarningPerTick;
-
     [FormerlySerializedAs("Price")] public int BasePrice;
     public float PriceIncreasePerLevel = 1.15f;
-    public float EarningsIncreasePerLevel = 2f;
     public int MaxUpgrades = 10;
-    public int CurrentLevel { get; set; }
-    public int CurrentIncome { get; set; }
+    public int CurrentLevel { get; set; } = 1;
     public int CurrentPrice { get; set; }
-    public float OreModifier = 1f;
 
-    private BuildingsManager _buildingsManager;
-
-    public List<int> MajorUpgradeLevels = new List<int> { 1, 5, 10 };
+    public List<int> MajorUpgradeLevels = new List<int> { 1, 4, 9 };
     public List<GameObject> MajorUpgradeObjects;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        CurrentIncome = BaseEarningPerTick;
+        _cachedTransform = transform;
         CurrentPrice = BasePrice;
-        CurrentLevel = 1;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         BuildingsManager.Instance.BuildingsChanged();
+        AudioManager.Instance.PlayBuildingCreatedSound(_cachedTransform);
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         BuildingsManager.Instance.BuildingsChanged();
-    }
-
-    private void OnEnable()
-    {
-        _buildingsManager = BuildingsManager.Instance;
-        _buildingsManager.ActiveBuildings.Add(this);
-    }
-
-    private void OnDisable()
-    {
-        _buildingsManager.ActiveBuildings.Remove(this);
     }
 
     private void OnMouseUpAsButton()
@@ -63,20 +44,35 @@ public class Building : PlanetEntity
             return;
         }
 
+        CurrentLevel++;
         int majorUpgradeIndex = MajorUpgradeLevels.IndexOf(CurrentLevel);
+        bool majorUpgradeDone = false;
         if (majorUpgradeIndex != -1)
         {
             for (var index = 0; index < MajorUpgradeObjects.Count; index++)
             {
                 var majorUpgrade = MajorUpgradeObjects[index];
                 majorUpgrade.SetActive(index == majorUpgradeIndex);
+                majorUpgradeDone = true;
             }
         }
 
-        CurrentLevel++;
-        CurrentIncome = (int)(BaseEarningPerTick * CurrentLevel * EarningsIncreasePerLevel);
+        if (majorUpgradeDone)
+        {
+            AudioManager.Instance.PlayBuildingMajorUpgrade(_cachedTransform);
+        }
+        else
+        {
+            AudioManager.Instance.PlayBuildingMinorUpgrade(_cachedTransform);
+        }
+
         CurrentPrice = GetNextUpgradePrice();
+        OnUpgraded();
         BuildingsManager.Instance.BuildingsChanged();
+    }
+
+    protected virtual void OnUpgraded()
+    {
     }
 
     public int GetNextUpgradePrice()

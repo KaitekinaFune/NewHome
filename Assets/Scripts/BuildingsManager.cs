@@ -5,7 +5,11 @@ using Utils;
 
 public class BuildingsManager : Singleton<BuildingsManager>
 {
-    public List<Building> ActiveBuildings { get; } = new List<Building>();
+    public List<EarningBuilding> ActiveEarningBuildings { get; } = new List<EarningBuilding>();
+
+    public List<TurretBuilding> ActiveTurretBuildings { get; } = new List<TurretBuilding>();
+
+    public MainBuilding MainBuilding;
 
     public event Action<BuildingEarnedEventArgs> OnBuildingEarned;
 
@@ -27,11 +31,16 @@ public class BuildingsManager : Singleton<BuildingsManager>
     private void OnTick(int tick)
     {
         int earningTotal = 0;
-        foreach (var activeBuilding in ActiveBuildings)
+        foreach (var activeBuilding in ActiveEarningBuildings)
         {
             int earningPerTick = activeBuilding.CurrentIncome;
             earningTotal += earningPerTick;
             OnBuildingEarned?.Invoke(new BuildingEarnedEventArgs(activeBuilding, earningPerTick));
+        }
+
+        if (earningTotal != 0)
+        {
+            AudioManager.Instance.PlayMoneyGainedSound();
         }
 
         PlayerCurrency.Instance.CurrentCurrency += earningTotal;
@@ -39,14 +48,15 @@ public class BuildingsManager : Singleton<BuildingsManager>
 
     public void BuildingsChanged()
     {
-        GameManager.Instance.OreModifier = ActiveBuildings.Count == 0 ? 1f : ActiveBuildings.Max(x => x.OreModifier);
+        GameManager.Instance.OreModifier =
+            ActiveEarningBuildings.Count == 0 ? 1f : ActiveEarningBuildings.Max(x => x.OreModifier);
         OnBuildingsChanged?.Invoke();
     }
 
     public int CurrentIncome()
     {
         int earningTotal = 0;
-        foreach (var activeBuilding in ActiveBuildings)
+        foreach (var activeBuilding in ActiveEarningBuildings)
         {
             int earningPerTick = activeBuilding.CurrentIncome;
             earningTotal += earningPerTick;

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 706655881660873578}
-  - component: {fileID: 706655881660873577}
+  - component: {fileID: 2793765804738965239}
   - component: {fileID: -1901644338810238041}
   m_Layer: 0
   m_Name: Building_living_compartment
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &706655881660873577
+--- !u!114 &2793765804738965239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,22 +42,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 706655881660873579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586abb1fa60c49bca34ffabe9e8c13ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a4cbfb0fc384fa1bf313660a166ba66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 2, y: 2}
   BuildingName: "\u0416\u0438\u043B\u043E\u0439 \u041E\u0442\u0441\u0435\u043A"
-  BaseEarningPerTick: 1
   BasePrice: 150
   PriceIncreasePerLevel: 1.15
-  EarningsIncreasePerLevel: 2
   MaxUpgrades: 10
-  OreModifier: 2
-  MajorUpgradeLevels: 010000000400000009000000
+  MajorUpgradeLevels: 01000000050000000a000000
   MajorUpgradeObjects:
   - {fileID: 6561288828202280693}
   - {fileID: 8990842040890948751}
   - {fileID: 1325577678481743303}
+  BaseEarningPerTick: 10
+  EarningsIncreasePerLevel: 2
+  OreModifier: 2
 --- !u!65 &-1901644338810238041
 BoxCollider:
   m_ObjectHideFlags: 0

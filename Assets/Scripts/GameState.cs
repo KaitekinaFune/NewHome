@@ -4,4 +4,5 @@
     Paused,
     Building,
     BuildingSelected,
+    Lost,
 }

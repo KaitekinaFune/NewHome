@@ -50,6 +50,7 @@ namespace Deck
             transform.DOScale(1f, 0.4f);
             Outline.enabled = false;
             GameManager.Instance.ExitBuildingState();
+            AudioManager.Instance.PlayUI1();
         }
     }
 }

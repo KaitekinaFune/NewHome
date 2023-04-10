@@ -7,7 +7,7 @@ public class UICurrency : MonoBehaviour
 
     private PlayerCurrency _playerCurrency;
 
-    private void Start()
+    private void Awake()
     {
         _playerCurrency = PlayerCurrency.Instance;
         _playerCurrency.OnCurrencyChanged += OnCurrencyChanged;

@@ -1,22 +1,15 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
-using UnityEngine;
-
-public class Ore : PlanetEntity
+﻿public class Ore : PlanetEntity
 {
     private int _tickUntil;
     private int _amountPerClick;
     private int _clicksAmount;
-
-    private bool _isDestroying;
 
     public void Init(int durationInTicks, int amountPerClick, int clicksAmount)
     {
         _tickUntil = GameManager.Instance.CurrentTick + durationInTicks;
         _amountPerClick = amountPerClick;
         _clicksAmount = clicksAmount;
-        _isDestroying = false;
+        IsDestroying = false;
     }
 
     private void OnEnable()
@@ -31,7 +24,7 @@ public class Ore : PlanetEntity
 
     private void OnMouseDown()
     {
-        if (_isDestroying || _clicksAmount == 0)
+        if (IsDestroying || _clicksAmount == 0)
         {
             return;
         }
@@ -42,12 +35,14 @@ public class Ore : PlanetEntity
             return;
         }
 
+        AudioManager.Instance.PlayOreDigSound(_cachedTransform);
         UIManager.Instance.EarnedMoney(_cachedTransform, amount);
         _clicksAmount--;
         PlayerCurrency.Instance.CurrentCurrency += amount;
 
         if (_clicksAmount == 0)
         {
+            AudioManager.Instance.PlayOreBreakSound(_cachedTransform);
             DelayedDestroy().Forget();
         }
     }
@@ -72,30 +67,6 @@ public class Ore : PlanetEntity
         if (tick > _tickUntil)
         {
             DelayedDestroy().Forget();
-        }
-    }
-
-    private async UniTaskVoid DelayedDestroy()
-    {
-        const float animDuration = 0.3f;
-
-        _isDestroying = true;
-        transform.DOScale(0f, animDuration);
-        try
-        {
-            await UniTask.Delay(TimeSpan.FromSeconds(0.3f), cancellationToken: this.GetCancellationTokenOnDestroy());
-
-            if (gameObject != null)
-            {
-                Destroy(gameObject);
-            }
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (Exception e)
-        {
-            Debug.LogException(e);
         }
     }
 }
